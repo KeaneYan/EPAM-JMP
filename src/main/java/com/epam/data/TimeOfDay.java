@@ -22,4 +22,5 @@ public enum TimeOfDay {
         }
         throw new IllegalArgumentException("Invalid hour: " + hour);
     }
+
 }
