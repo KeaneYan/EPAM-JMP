@@ -3,7 +3,6 @@ package com.epam.dbservice;
 import java.util.Date;
 import java.util.List;
 
-import com.epam.data.RoadAccident;
 import com.epam.entities.Accident;
 
 public interface AccidentService {
