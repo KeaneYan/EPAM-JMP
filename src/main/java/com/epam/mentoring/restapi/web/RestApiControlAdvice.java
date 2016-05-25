@@ -2,6 +2,7 @@ package com.epam.mentoring.restapi.web;
 
 import com.epam.mentoring.restapi.web.exception.BadRequestError;
 import com.epam.mentoring.restapi.web.exception.InternalServerError;
+import com.epam.mentoring.restapi.web.exception.NotFoundError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,5 +47,10 @@ public class RestApiControlAdvice {
         return e.getMessage()== null ? "BAD_REQUEST" : "BAD_REQUEST: "+ e.getMessage();
     }
 
-
+    @ExceptionHandler(value=NotFoundError.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handle(NotFoundError e) {
+        return e.getMessage()== null ? "NOT_FOUND" : "NOT_FOUND: "+ e.getMessage();
+    }
 }
