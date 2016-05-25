@@ -1,9 +1,9 @@
 package com.epam.processor;
 
+import com.epam.db.HsqlInit;
 import com.epam.dbservice.AccidentService;
 import com.epam.entities.Accident;
 import org.hamcrest.core.IsEqual;
-import org.hsqldb.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,38 +12,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring/spring-config.xml")
 public class AccidentServiceIntegrationTest {
 
-    private static Server hsqlServer;
+    private static Connection connection;
+    private static final HsqlInit hsqlInit = new HsqlInit();
     @Autowired
     public AccidentService accidentService;
 
     @BeforeClass
     public static void starDatabase(){
-        System.setProperty("textdb.allow_full_path", "true");
-        hsqlServer = new Server();
-        hsqlServer.setLogWriter(null);
-        hsqlServer.setSilent(true);
-        hsqlServer.setDatabaseName(0, "jmp");
-        hsqlServer.setPort(12345);
-        hsqlServer.setDatabasePath(0, "file:jmpdb");
-
-        hsqlServer.start();
+        connection = HsqlInit.initDatabase();
+        hsqlInit.initTablesFromFiles(connection);
     }
 
     @AfterClass
-    public static void shutdownDatabase(){
-        hsqlServer.stop();
-        hsqlServer.shutdown();
+    public static void shutdownDatabase() throws SQLException {
+        connection.close();
+        hsqlInit.stopDatabase();
     }
 
     @Test

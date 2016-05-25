@@ -17,24 +17,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
 public class AccidentDBServiceImpl implements AccidentService {
 
     @Autowired
     private AccidentRepository accidentRepository;
 
+    @Override
 	public Accident findOne(String accidentId) {
 		return accidentRepository.findOne(accidentId);
 	}
 
+    @Override
 	public List<Accident> getAllAccidentsByRoadCondition(String roadCondition) {
 		return accidentRepository.findByRoadSurfaceCondition(roadCondition);
 	}
 
+    @Override
 	public List<Accident> getAllAccidentsByWeatherConditionAndYear(String weatherCondition, String year) {
 		return accidentRepository.findByAccidentsByWeatherConditionAndYear(weatherCondition, year);
 	}
 
+    @Override
 	public List<Accident> getAllAccidentsByDate(Date date) {
         List<Accident> accidents = accidentRepository.findByAccidentsByDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         accidents.forEach(accident -> {
@@ -43,6 +46,7 @@ public class AccidentDBServiceImpl implements AccidentService {
         return accidents;
 	}
 
+    @Override
 	public Boolean update(Accident accident) {
         String timeOfDay = calculateTimeOfDay(accident);
         accident.setTime(timeOfDay);
