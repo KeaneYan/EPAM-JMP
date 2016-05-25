@@ -43,7 +43,7 @@ public class AccidentsDataLoader {
 
 
     private Map<Integer, String> loadIntToStrignMap(String filepath) {
-        Map<Integer, String> resultMap = new HashMap<Integer, String>();
+        Map<Integer, String> resultMap = new HashMap<>();
 
         try {
             Reader reader = new FileReader(filepath);
@@ -62,7 +62,7 @@ public class AccidentsDataLoader {
     public List<RoadAccident> loadRoadAccidents(String filepath) {
         loadAdditionalTables();
 
-        List<RoadAccident> roadAccidentList = new ArrayList<RoadAccident>();
+        List<RoadAccident> roadAccidentList = new ArrayList<>();
         try {
             Reader reader = new FileReader(filepath);
             Iterable<CSVRecord> records = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
